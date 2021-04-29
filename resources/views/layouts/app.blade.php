@@ -22,7 +22,7 @@
     </header>
     <main class="container">
         @if (session('status'))
-            <div style="background-color: red; color: white">
+            <div class="alert alert-success">
                 {{ session('status') }}
             </div>
         @endif
