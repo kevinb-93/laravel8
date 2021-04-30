@@ -3,5 +3,6 @@
 @section('title', 'Homepage')
 
 @section('main')
-<h1>Hello world!</h1>
+<h1>Welcome to Laravel!</h1>
+<p>This is the content of the main page!</p>
 @endsection
