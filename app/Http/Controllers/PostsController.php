@@ -81,7 +81,7 @@ class PostsController extends Controller
         $post->fill($validated);
         $post->save();
 
-        $request->session()->flash('status', 'Blog post was updated');
+        $request->session()->flash('status', 'The blog post was updated!');
 
         return redirect()->route('posts.show', ['post' => $post->id]);
     }
