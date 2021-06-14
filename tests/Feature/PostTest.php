@@ -55,7 +55,7 @@ class PostTest extends TestCase
             'content' => 'At least 10 characters'
         ];
 
-        $this->post('/posts', $params)->assertStatus(302)->assertSessionHas('status');
+        $this->actingAs($this->user())->post('/posts', $params)->assertStatus(302)->assertSessionHas('status');
         $this->assertEquals(session('status'), 'The blog post was created!');
     }
 
@@ -66,7 +66,7 @@ class PostTest extends TestCase
             'content' => 'At'
         ];
 
-        $this->post('/posts', $params)->assertStatus(302)->assertSessionHas('errors');
+        $this->actingAs($this->user())->post('/posts', $params)->assertStatus(302)->assertSessionHas('errors');
         $messages = session('errors')->getMessages();
         $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
         $this->assertEquals($messages['content'][0], 'The content must be at least 10 characters.');
@@ -83,7 +83,7 @@ class PostTest extends TestCase
             'content' => 'content changed'
         ];
 
-        $this->put("/posts/{$post->id}", $params)->assertStatus(302)->assertSessionHas('status');
+        $this->actingAs($this->user())->put("/posts/{$post->id}", $params)->assertStatus(302)->assertSessionHas('status');
         $this->assertEquals(session('status'), 'The blog post was updated!');
         $this->assertDatabaseMissing('blog_posts', ['title' => 'New title']);
         $this->assertDatabaseHas('blog_posts', ['title' => 'new Valid title']);
@@ -95,7 +95,7 @@ class PostTest extends TestCase
         $post = $this->createDummyBlogPost();
         $this->assertDatabaseHas('blog_posts', ['title' => 'New title']);
 
-        $this->delete("/posts/{$post->id}")->assertStatus(302)->assertSessionHas('status');
+        $this->actingAs($this->user())->delete("/posts/{$post->id}")->assertStatus(302)->assertSessionHas('status');
         $this->assertEquals(session('status'), 'Blog post was deleted!');
         $this->assertDatabaseMissing('blog_posts', ['title' => 'New title']);
 
